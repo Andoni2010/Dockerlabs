@@ -1,8 +1,8 @@
-## MÁQUINA INJECTION
+# MÁQUINA INJECTION
 
 ![Imagen maquina](Foto_de_la_maquina_injection.png)
 
-# Introducción
+### Introducción
 
 Este repositorio contiene una guía práctica para explotar la máquina "Injection", enfocada en técnicas de inyección SQL (SQLi) y escalada de privilegios. A través de comandos detallados y ejemplos visuales, aprenderás a desplegar la máquina, identificar vulnerabilidades y obtener control del sistema.
 
