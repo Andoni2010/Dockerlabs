@@ -1,4 +1,4 @@
-# MÁQUINA INJECTION
+## MÁQUINA INJECTION
 
 ![Imagen maquina](Foto_de_la_maquina_injection.png)
 
@@ -6,7 +6,7 @@
 
 Este repositorio contiene una guía práctica para explotar la máquina "Injection", enfocada en técnicas de inyección SQL (SQLi) y escalada de privilegios. A través de comandos detallados y ejemplos visuales, aprenderás a desplegar la máquina, identificar vulnerabilidades y obtener control del sistema.
 
-# ¿Qué encontrarás aquí?
+#### ¿Qué encontrarás aquí?
 
 Despliegue y configuración de la máquina "Injection" con Docker.
 Reconocimiento de puertos y servicios usando Nmap.
@@ -17,9 +17,9 @@ Escalada de privilegios mediante la identificación de permisos SUID.
 
 Este proyecto es ideal para quienes desean fortalecer sus habilidades en hacking ético y ciberseguridad en un entorno controlado.
 
-## Despliegue de la maquina
+### Despliegue de la maquina
 
-# ¡VAMOS A EMPEZAR!
+#### ¡VAMOS A EMPEZAR!
 
 Primero, vamos a ir a Dockerlabs y descargaremos el .ZIP de la máquina Injection.
 
@@ -39,7 +39,7 @@ Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicaci�
 ping <IP máquina>
 ```
 
-## Escaneo de puertos 
+### Escaneo de puertos 
 
 Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la máquina. Haremos un escaneo con NMAP utilizando las siguientes opciones:
 
@@ -69,7 +69,7 @@ Es cierto que es más rápido, sigiloso, más eficiente, y es el preferido para 
 
 Ahora bien, en este punto observaremos que los puertos 22 y 80 están abiertos. En este caso, el puerto 22 no lo usaremos de momento, ya que tiene el protocolo SSH y no tenemos ni usuario ni contraseña.
 
-## SQLi
+### SQLi
 
 Vamos a explorar el puerto con el protocolo HTTP. Con esto podemos probar si al poner la IP en el navegador podemos ver una página.
 
@@ -115,7 +115,7 @@ SELECT * FROM users WHERE username = '' OR 1=1 -- ' AND password = '';
 
 Ahora, después de todo esto, ya podemos ver un mensaje que dice "¡Bienvenido, Dylan!" y con una cadena de números y letras que es la contraseña.
 
-## Escalar privilegios
+### Escalar privilegios
 
 Ya sabiendo los puertos abiertos que hemos visto anteriormente y que ya conocemos el usuario y la contraseña, podemos probar suerte con el puerto 22, que tiene el servicio SSH. Vamos a escribir:
 
@@ -155,3 +155,6 @@ find / -perm -4000 -a -perm -2000 2>/dev/null
 
 Esto hace exactamente que, con el operador AND (-a), busque los archivos con permisos especiales SUID y SGID, utilizando el número 2000.
 
+### Último paso
+
+root
