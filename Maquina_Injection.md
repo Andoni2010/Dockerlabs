@@ -1,7 +1,9 @@
 ## MÁQUINA INJECTION
 
+![Imagen maquina](Foto_de_la_maquina_injection.png)
+
 ¡VAMOS A EMPEZAR!
-![hola](Foto_de_la_maquina_injection.png)
+
 Primero, vamos a ir a Dockerlabs y descargaremos el .ZIP de la máquina Injection.
 
 Después de arrastrar los archivos a una carpeta, nos iremos a la terminal y nos dirigiremos hacia la carpeta con esos archivos.
@@ -11,6 +13,8 @@ Cuando estemos en la carpeta, desplegaremos la máquina mediante:
 ```
 sudo bash auto_deploy.sh injection.tar
 ```
+
+![Imagen maquina](Foto_despliegue_maquina.png)
 
 Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicación y comprobar la conexión:
 
@@ -23,6 +27,8 @@ Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la
 ```
 nmap -p- --open -sT --min-rate 5000 -vvv -n -Pn <IP máquina>
 ```
+
+![Imagen maquina](Captura de pantalla 2024-08-23 135223.png)
 
 Antes de analizar los resultados, vamos a explicar qué hemos hecho en este comando y por qué no hemos utilizado otras opciones:
 
