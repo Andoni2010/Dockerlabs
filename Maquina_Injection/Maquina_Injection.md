@@ -31,7 +31,7 @@ Cuando estemos en la carpeta, desplegaremos la máquina mediante:
 sudo bash auto_deploy.sh injection.tar
 ```
 
-![Imagen maquina](Maquina_Injection/imagenes/Foto_despliegue_maquina.png)
+![Imagen maquina](imagenes/Foto_despliegue_maquina.png)
 
 Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicación y comprobar la conexión:
 
@@ -47,7 +47,7 @@ Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la
 nmap -p- --open -sT --min-rate 5000 -vvv -n -Pn <IP máquina>
 ```
 
-![Imagen maquina](Maquina_Injection/imagenes/nmap.png)
+![Imagen maquina](imagenes/nmap.png)
 
 Antes de analizar los resultados, vamos a explicar qué hemos hecho en este comando y por qué no hemos utilizado otras opciones:
 
@@ -91,7 +91,7 @@ Ahora bien, ¿cómo atacaremos esta página de registro? Muy fácil. Usaremos es
 ' OR 1=1 --
 ```
 
-![Imagen maquina](Maquina_Injection/imagenes/login.png)
+![Imagen maquina](imagenes/login.png)
 
 Al igual que antes con NMAP, vamos a ver qué hace este payload:
 
@@ -124,7 +124,7 @@ Ahora, después de todo esto, ya podemos ver un mensaje que dice "¡Bienvenido, 
 
 Ya sabiendo los puertos abiertos que hemos visto anteriormente y que ya conocemos el usuario y la contraseña, podemos probar suerte con el puerto 22, que tiene el servicio SSH. Vamos a escribir:
 
-![Imagen maquina](Maquina_Injection/imagenes/ssh.png)
+![Imagen maquina](imagenes/ssh.png)
 
 ```
 ssh dylan@<IP maquina>
@@ -160,7 +160,7 @@ La opción que busca también SGID:
 find / -perm -4000 -a -perm -2000 2>/dev/null
 ```
 
-![Imagen maquina](Maquina_Injection/imagenes/find.png)
+![Imagen maquina](imagenes/find.png)
 
 Esto hace exactamente que, con el operador AND (-a), busque los archivos con permisos especiales SUID y SGID, utilizando el número 2000.
 
@@ -182,7 +182,7 @@ Ahora, veamos qué hace realmente este comando:
 - /bin/sh: Es el intérprete de comandos. Aquí se ejecuta el shell.
 - -p: Opción que indica que el shell debería ejecutarse con privilegios elevados. Realmente, -p desactiva el mecanismo que hace que los permisos de usuario y grupo del proceso sean los mismos que los permisos reales. Esto permite que el shell mantenga los privilegios del propietario del archivo.
 
-![Imagen maquina](Maquina_Injection/imagenes/root.png)
+![Imagen maquina](imagenes/root.png)
 
 Con todo esto, hemos logrado obtener una shell como usuario root.
 
