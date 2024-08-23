@@ -118,7 +118,7 @@ SELECT * FROM users WHERE username = '' OR 1=1 -- ' AND password = '';
 
 Ahora, después de todo esto, ya podemos ver un mensaje que dice "¡Bienvenido, Dylan!" y con una cadena de números y letras que es la contraseña.
 
-![Imagen maquina](Maquina_Injection/imagenes/user.png)
+![Imagen maquina](imagenes/user.png)
 
 ### Escalar privilegios
 
