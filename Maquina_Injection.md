@@ -78,9 +78,9 @@ En este caso, estamos viendo una página de registro. Aquí podremos hacer dos c
 1. Probar todas las combinaciones comunes que suelen haber por defecto (root, admin, user, password, 123...).
 
 2. Probar SQL Injection (SQLi). Antes de inyectar código SQL, quiero matizar que hay tres tipos de SQLi:
-2.1. In-Band.
-2.2. Out-of-Band.
-2.3. Blind.
+- ** In-Band.
+- ** Out-of-Band.
+- ** Blind.
    
 Viendo que hay tres tipos, debemos saber cuál vamos a utilizar y el porqué. En nuestro caso, usaremos el primer tipo, In-Band, ya que es el más común y es el que nos sirve ahora para hacer este ejercicio de una manera más rápida. Aun así, recomiendo que exploren los otros dos tipos para ver qué función tienen.
 
