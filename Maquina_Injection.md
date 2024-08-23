@@ -158,4 +158,22 @@ Esto hace exactamente que, con el operador AND (-a), busque los archivos con per
 
 ### Último paso
 
-root
+Por último, vamos a ver que hay un binario en /usr/bin/env.
+
+Hay una página que nos ayuda en la explotación de binarios, llamada GTFOBins.
+
+Para explotarlo, debemos escribir el siguiente comando:
+
+```
+/usr/bin/env /bin/sh -p
+```
+
+Ahora, veamos qué hace realmente este comando:
+
+/usr/bin/env: En este caso, llama a /bin/sh sin modificar el entorno.
+/bin/sh: Es el intérprete de comandos. Aquí se ejecuta el shell.
+-p: Opción que indica que el shell debería ejecutarse con privilegios elevados. Realmente, -p desactiva el mecanismo que hace que los permisos de usuario y grupo del proceso sean los mismos que los permisos reales. Esto permite que el shell mantenga los privilegios del propietario del archivo.
+
+Con todo esto, hemos logrado obtener una shell como usuario root.
+
+#### ¡Gracias por leer y buena suerte con tus futuros ejercicios de hacking ético!
