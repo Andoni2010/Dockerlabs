@@ -52,20 +52,20 @@ nmap -p- --open -sT --min-rate 5000 -vvv -n -Pn <IP máquina>
 Antes de analizar los resultados, vamos a explicar qué hemos hecho en este comando y por qué no hemos utilizado otras opciones:
 
 Nmap: La herramienta para el escaneo de puertos.
--p-: Escanea todos los puertos.
---open: Muestra solo los puertos abiertos.
--sT: No requiere permisos root, funciona en cualquier entorno, establece una conexión más completa y, además, confirma que el puerto realmente está disponible para la comunicación.
+- -p-: Escanea todos los puertos.
+- --open: Muestra solo los puertos abiertos.
+- -sT: No requiere permisos root, funciona en cualquier entorno, establece una conexión más completa y, además, confirma que el puerto realmente está disponible para la comunicación.
 
 ¿Y por qué no -sS?
 Es cierto que es más rápido, sigiloso, más eficiente, y es el preferido para las auditorías, pero requiere permisos root y no establece una conexión completa.
 
---min-rate 5000: Fuerza a Nmap a enviar una tasa mínima de paquetes.
--vvv: Proporciona información muy detallada sobre lo que hace Nmap y muestra los resultados durante el escaneo.
--n: No intenta resolver las direcciones IP a nombres de dominio.
--Pn: Asume que el host está en línea y no realiza ping.
+- --min-rate 5000: Fuerza a Nmap a enviar una tasa mínima de paquetes.
+- -vvv: Proporciona información muy detallada sobre lo que hace Nmap y muestra los resultados durante el escaneo.
+- -n: No intenta resolver las direcciones IP a nombres de dominio.
+- -Pn: Asume que el host está en línea y no realiza ping.
 
 (Opcional pero recomendable) 
--sV: Para ver la versión de los servicios en los puertos escaneados.
+- -sV: Para ver la versión de los servicios en los puertos escaneados.
 
 Ahora bien, en este punto observaremos que los puertos 22 y 80 están abiertos. En este caso, el puerto 22 no lo usaremos de momento, ya que tiene el protocolo SSH y no tenemos ni usuario ni contraseña.
 
@@ -95,10 +95,10 @@ Al igual que antes con NMAP, vamos a ver qué hace este payload:
 
 ': Esta comilla cierra la cadena de texto que debería contener un valor (en este caso, el usuario).
 OR 1=1: Nos ayuda a que esta condición siempre sea verdadera. Al usar OR, se está diciendo "selecciona registros donde la condición original sea cierta o donde 1 sea igual a 1", lo que significa que siempre seleccionará registros.
---: Esto nos evita la molestia de pensar cuál es la contraseña, ya que el código siguiente a esto estará comentado.
+- --: Esto nos evita la molestia de pensar cuál es la contraseña, ya que el código siguiente a esto estará comentado.
 (Información adicional)
--- o -- -: Ambos hacen la misma función.
-': Antes de la comilla simple, puedes poner algo si te apetece.
+- -- o -- -: Ambos hacen la misma función.
+- ': Antes de la comilla simple, puedes poner algo si te apetece.
 ¿Se pueden usar otros métodos? Sí, UNION, por ejemplo, pero eso lo probaremos en otras máquinas.
 
 Vamos a verlo un poco mejor con este ejemplo:
@@ -144,9 +144,9 @@ Antes de explicar qué hace el comando, recomendaría explorar más opciones, ya
 
 ¿Qué hace el comando?
 
-find /: Inicia la búsqueda en el directorio raíz y recorre todo el sistema de archivos.
--perm -4000: Con esto, buscamos archivos que tengan permisos especiales llamados SUID. Este permiso hace que cuando alguien ejecuta el archivo, lo haga con los privilegios del dueño del archivo.
-2>/dev/null: Envía todos los mensajes de error a un lugar donde no se ven, y así tenemos una salida de comando limpia.
+- find /: Inicia la búsqueda en el directorio raíz y recorre todo el sistema de archivos.
+- -perm -4000: Con esto, buscamos archivos que tengan permisos especiales llamados SUID. Este permiso hace que cuando alguien ejecuta el archivo, lo haga con los privilegios del dueño del archivo.
+- 2>/dev/null: Envía todos los mensajes de error a un lugar donde no se ven, y así tenemos una salida de comando limpia.
 
 La opción que busca también SGID:
 
@@ -170,9 +170,9 @@ Para explotarlo, debemos escribir el siguiente comando:
 
 Ahora, veamos qué hace realmente este comando:
 
-/usr/bin/env: En este caso, llama a /bin/sh sin modificar el entorno.
-/bin/sh: Es el intérprete de comandos. Aquí se ejecuta el shell.
--p: Opción que indica que el shell debería ejecutarse con privilegios elevados. Realmente, -p desactiva el mecanismo que hace que los permisos de usuario y grupo del proceso sean los mismos que los permisos reales. Esto permite que el shell mantenga los privilegios del propietario del archivo.
+- /usr/bin/env: En este caso, llama a /bin/sh sin modificar el entorno.
+- /bin/sh: Es el intérprete de comandos. Aquí se ejecuta el shell.
+- -p: Opción que indica que el shell debería ejecutarse con privilegios elevados. Realmente, -p desactiva el mecanismo que hace que los permisos de usuario y grupo del proceso sean los mismos que los permisos reales. Esto permite que el shell mantenga los privilegios del propietario del archivo.
 
 Con todo esto, hemos logrado obtener una shell como usuario root.
 
