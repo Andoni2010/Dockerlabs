@@ -1,7 +1,7 @@
 ## MÁQUINA INJECTION
 
 ¡VAMOS A EMPEZAR!
-![hola](Dockerlabs/Foto_de_la_maquina_injection.png)
+![hola](Foto_de_la_maquina_injection.png)
 Primero, vamos a ir a Dockerlabs y descargaremos el .ZIP de la máquina Injection.
 
 Después de arrastrar los archivos a una carpeta, nos iremos a la terminal y nos dirigiremos hacia la carpeta con esos archivos.
