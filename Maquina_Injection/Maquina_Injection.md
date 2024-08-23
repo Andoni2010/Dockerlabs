@@ -1,6 +1,6 @@
 ## MÁQUINA INJECTION
 
-![Imagen maquina](Maquina_Injection/imagenes/foto_de_la_maquina_injection.png)
+![Imagen maquina](imagenes/foto_de_la_maquina_injection.png)
 
 ### Introducción
 
