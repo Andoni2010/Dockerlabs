@@ -128,7 +128,7 @@ Vim es un editor de texto en terminal bastante potente, similar a Nano.
 Podemos aprovechar los permisos de vim para ejecutar una shell con privilegios de root.
 
 ```
-sudo -u root /usr/bin/vim -c `:!/bin/bash`
+sudo -u root /usr/bin/vim -c ':!/bin/sh'
 ```
 
 ¿Qué hace el comando?
