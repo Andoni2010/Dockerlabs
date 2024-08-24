@@ -1,4 +1,4 @@
-## MÁQUINA INJECTION
+## MÁQUINA TRUST
 
 ![Imagen maquina](imagenes/maquina_trust.png)
 
