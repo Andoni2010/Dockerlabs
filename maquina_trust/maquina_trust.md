@@ -1,5 +1,6 @@
 ## MÁQUINA INJECTION
 
+![Imagen maquina](imagenes/maquina_trust.png)
 
 ### Introducción
 
@@ -41,8 +42,6 @@ Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la
 ```
 nmap -p- - sS -sV -sC --min-rate 5000 -vvv -n -Pn <IP máquina>
 ```
-
-![Imagen maquina](imagenes/nmap.png)
 
 Antes de analizar los resultados, vamos a explicar qué hemos hecho en este comando y por qué no hemos utilizado otras opciones:
 
