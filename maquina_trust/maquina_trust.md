@@ -27,13 +27,15 @@ Cuando estemos en la carpeta, desplegaremos la máquina mediante:
 sudo bash auto_deploy.sh trust.tar
 ```
 
-![Imagen maquina](imagenes/Foto_despliegue_maquina.png)
+![Imagen maquina](imagenes/despliegue_trust.png)
 
 Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicación y comprobar la conexión:
 
 ```
 ping <IP máquina>
 ```
+
+![Imagen maquina](imagenes/ping_trust.png)
 
 ### Escaneo de puertos 
 
@@ -42,6 +44,8 @@ Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la
 ```
 nmap -p- - sS -sV -sC --min-rate 5000 -vvv -n -Pn <IP máquina>
 ```
+
+![Imagen maquina](imagenes/nmap_trust.png)
 
 Antes de analizar los resultados, vamos a explicar qué hemos hecho en este comando y por qué no hemos utilizado otras opciones:
 
@@ -55,11 +59,15 @@ Antes de analizar los resultados, vamos a explicar qué hemos hecho en este coma
 - -n: No resuelve nombres de dominio, trabajando solo con direcciones IP.
 - -Pn: Asume que el host está en línea y omite la fase de descubrimiento (ping scan).
 
+![Imagen maquina](imagenes/nmap2_trust.png)
+
 En este punto, observaremos que los puertos 22 y 80 están abiertos. En este caso, el puerto 22 no lo usaremos de momento, ya que tiene el protocolo SSH y no tenemos ni usuario ni contraseña.
 
 ### Gobuster
 
 Vamos a explorar el puerto 80, que utiliza el protocolo HTTP. Probando la IP en el navegador, deberíamos ver una página.
+
+![Imagen maquina](imagenes/apache_trust.png)
 
 En este caso, estamos viendo una plantilla de Apache y su ubicación en /var/html/index.html.
 
@@ -76,6 +84,8 @@ gobuster dir: Ejecuta Gobuster en modo de búsqueda de directorios.
 - -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt: Define la lista de palabras (wordlist) que Gobuster utilizará para probar nombres de directorios y archivos.
 - -x html,php,sh,py: Especifica las extensiones de archivo a buscar (HTML, PHP, SH, PY).
 
+![Imagen maquina](imagenes/gobuster_trust.png)
+
 Aquí vemos que nos sale un archivo secret.php (que lo hemos encontrado gracias al filtrado por extensiones).
 
 Volvemos a la URL en el navegador y después de la IP añadimos /secret.php.
@@ -83,6 +93,7 @@ Volvemos a la URL en el navegador y después de la IP añadimos /secret.php.
 ```
 <Ip maquina>/secret.php
 ```
+![Imagen maquina](imagenes/mario_trust.png)
 
 En este punto, veremos un mensaje de "¡Hola Mario!" y nos comenta que no se puede hackear. Mario parece estar seguro de ello, pero podemos intentar descifrar su contraseña.
 
@@ -101,6 +112,8 @@ Hydra: Herramienta para ataques de fuerza bruta en servicios de red.
 - ssh://<ip máquina>: Indica que el objetivo es un servicio SSH en la IP especificada.
 - -t 64: Define el número de tareas paralelas que Hydra ejecutará (64 en este caso) para acelerar el proceso.
 
+![Imagen maquina](imagenes/hydra_trust.png)
+
 Aquí veremos que con esta herramienta hemos encontrado la contraseña "chocolate".
 
 Ya que tenemos usuario, contraseña y la IP, el siguiente paso es entrar mediante SSH.
@@ -108,6 +121,8 @@ Ya que tenemos usuario, contraseña y la IP, el siguiente paso es entrar mediant
 ```
 ssh mario@<ip maquina>
 ```
+
+![Imagen maquina](imagenes/ssh_trust.png)
 
 ### Estamos dentro
 
@@ -118,6 +133,8 @@ Primero, probaremos si podemos usar sudo.
 ```
 sudo -l
 ```
+
+![Imagen maquina](imagenes/sudoers_trust.png)
 
 Vemos que Mario tiene permisos para ejecutar vim como superusuario.
 
@@ -136,6 +153,8 @@ sudo -u root /usr/bin/vim -c ':!/bin/sh'
 - sudo: Ejecuta un comando como superusuario o como otro usuario.
 - -u root /usr/bin/vim: Ejecuta Vim como el usuario root.
 - -c ':!/bin/bash': Utiliza la opción -c para ejecutar un comando específico en Vim. En este caso, el comando :!/bin/bash abre una shell (bash) con privilegios de root.
+
+![Imagen maquina](imagenes/vim_trust.png)
 
 Con todo esto, hemos logrado obtener una shell como usuario root.
 
