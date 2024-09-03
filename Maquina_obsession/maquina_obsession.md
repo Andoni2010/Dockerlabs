@@ -1,5 +1,7 @@
 ## MÁQUINA OBSESSION
 
+![Imagen maquina](imagenes/maquina.png)
+
 ### Introducción
 
 En esta guía, exploraremos la máquina "Obsession" paso a paso, desde el despliegue inicial hasta la identificación de vulnerabilidades que nos permitirán avanzar en la explotación. Este documento te guiará en técnicas de reconocimiento, explotación de servicios y escalada de privilegios.
@@ -25,7 +27,7 @@ Cuando estemos en la carpeta, desplegaremos la máquina mediante:
 sudo bash auto_deploy.sh obsession.tar
 ```
 
-![Imagen maquina](imagenes/despliegue_trust.png)
+![Imagen maquina](imagenes/despliegue_maquina.png)
 
 Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicación y comprobar la conexión:
 
@@ -33,7 +35,7 @@ Ya teniendo la IP de la máquina, haremos ping para verificar si hay comunicaci�
 ping <IP máquina>
 ```
 
-![Imagen maquina](imagenes/ping_trust.png)
+![Imagen maquina](imagenes/ping.png)
 
 ### Escaneo de puertos 
 
@@ -43,7 +45,7 @@ Ahora deberíamos ver qué puertos están abiertos para saber cómo acceder a la
 nmap -p- - sS -sCV--min-rate 5000 -vvv -n -Pn <IP máquina> -oN <nombre_archivo.txt>
 ```
 
-![Imagen maquina](imagenes/nmap_trust.png)
+![Imagen maquina](imagenes/nmap.png)
 
 Antes de analizar los resultados, vamos a explicar qué hemos hecho en este comando y por qué no hemos utilizado otras opciones:
 
@@ -57,7 +59,7 @@ Antes de analizar los resultados, vamos a explicar qué hemos hecho en este coma
 - -Pn: Asume que el host está en línea y omite la fase de descubrimiento (ping scan).
 - -oN: Guarda los resultados del escaneo en un archivo de texto.
 
-![Imagen maquina](imagenes/nmap2_trust.png)
+![Imagen maquina](imagenes/puertos.png)
 
 Después del escaneo, observamos que los siguientes puertos están abiertos:
 
@@ -67,11 +69,15 @@ Después del escaneo, observamos que los siguientes puertos están abiertos:
 
 ### PUERTO 80 HTTP
 
+![Imagen maquina](imagenes/local.png)
+
 En esta página no encontraremos mucho ya que el unico link que podriamos ver informacion, nos redirigue al autor de la maquina. 
 
 Asi que en este punto no hemos encontrado nada.
 
 ### PUERTO 21 FTP
+
+![Imagen maquina](imagenes/ftp.png)
 
 Como ya hemos visto anteriormente a dos archivos que intentaremos descargar mediante el servicio ftp.
 
@@ -86,7 +92,12 @@ hay que recordar que en el escaneo de puerto no salió un nombre para este servi
 ```
 get <archivo>
 ```
+
+![Imagen maquina](imagenes/get.png)
+
 Encontramos una lista de tareas que podría indicar la presencia de permisos mal configurados, y en la otra una conversación que, por el momento, no parece relevante.
+
+![Imagen maquina](imagenes/cat_get.png)
 
 ### Gobuster
 
@@ -96,14 +107,14 @@ Ahora sabiendo que no tenemos nada interesante quitando que puede tener mal conf
 gobuster dir -u http:/<ip maquina> -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt -x html,php,sh,py
 ```
 
+![Imagen maquina](imagenes/gobuster.png)
+
 Vamos a ver qué hacen estas opciones:
 
 gobuster dir: Ejecuta Gobuster en modo de búsqueda de directorios.
 - -u http://<ip máquina>: Especifica la URL objetivo.
 - -w /usr/share/wordlists/dirbuster/directory-list-lowercase-2.3-medium.txt: Define la lista de palabras (wordlist) que Gobuster utilizará para probar nombres de directorios y archivos.
 - -x html,php,sh,py: Especifica las extensiones de archivo a buscar (HTML, PHP, SH, PY).
-
-![Imagen maquina](imagenes/gobuster_trust.png)
 
 Aquí vemos que nos salen dos directorios:
 
@@ -113,11 +124,19 @@ Aquí vemos que nos salen dos directorios:
 <Ip maquina>/important
 ```
 
+![Imagen maquina](imagenes/import.png)
+
+![Imagen maquina](imagenes/in_import.png)
+
 - /backup: En este directorio encontramos un archivo backup.txt. Al acceder a este archivo, obtenemos un mensaje en el navegador indicando la necesidad de cambiar un usuario, mencionando que es el usuario para todos los servicios, lo cual podría ser un dato crucial.
 
 ```
 <Ip maquina>/backup
 ```
+
+![Imagen maquina](imagenes/backup.png)
+
+![Imagen maquina](imagenes/in_backup.png)
 
 Con esta informacion ya podemos hacer algo interesante.
 
@@ -130,6 +149,9 @@ Bueno, usaremos Hydra, ya que nos ayudará a sacar la contraseña mediante un at
 ```
 hydra -l russoski -P /usr/share/wordlists/rockyou.txt ssh://<ip maquina> -t 64
 ```
+
+![Imagen maquina](imagenes/hydra.png)
+
 ¿Qué estamos haciendo exactamente?
 
 Hydra: Herramienta para ataques de fuerza bruta en servicios de red.
@@ -138,7 +160,6 @@ Hydra: Herramienta para ataques de fuerza bruta en servicios de red.
 - ssh://<ip máquina>: Indica que el objetivo es un servicio SSH en la IP especificada.
 - -t 64: Define el número de tareas paralelas que Hydra ejecutará (64 en este caso) para acelerar el proceso.
 
-![Imagen maquina](imagenes/hydra_trust.png)
 
 Aquí veremos que con esta herramienta hemos encontrado la contraseña "iloveme".
 
@@ -148,7 +169,7 @@ Ya que tenemos usuario, contraseña y la IP, el siguiente paso es entrar mediant
 ssh russoski@<ip maquina>
 ```
 
-![Imagen maquina](imagenes/ssh_trust.png)
+![Imagen maquina](imagenes/ssh.png)
 
 
 ### PUERTO 22 SSH
@@ -163,7 +184,7 @@ Primero, probaremos si podemos usar `sudo`.
 sudo -l
 ```
 
-![Imagen maquina](imagenes/sudoers_trust.png)
+![Imagen maquina](imagenes/ssh_sudo.png)
 
 Vemos que Russoski tiene permisos para ejecutar vim.
 
@@ -177,13 +198,13 @@ Podemos aprovechar los permisos de vim para ejecutar una shell con privilegios d
 sudo -u root /usr/bin/vim -c ':!/bin/sh'
 ```
 
+![Imagen maquina](imagenes/ssh_root.png)
+
 ¿Qué hace el comando?
 
 - sudo: Ejecuta un comando como superusuario o como otro usuario.
 - -u root /usr/bin/vim: Ejecuta Vim como el usuario root.
 - -c ':!/bin/bash': Utiliza la opción -c para ejecutar un comando específico en Vim. En este caso, el comando :!/bin/bash abre una shell (bash) con privilegios de root.
-
-![Imagen maquina](imagenes/vim_trust.png)
 
 Con todo esto, hemos logrado obtener una shell como usuario root.
 
